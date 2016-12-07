@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TimelyGreetingsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Attachment">
+    <Key>
+      <PropertyRef Name="AttachmentID" />
+    </Key>
+    <Property Name="AttachmentID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AttachmentType" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="AttachmentSize" Type="decimal" Precision="15" Scale="2" Nullable="false" />
+    <Property Name="AttachmentData" Type="varchar(max)" Nullable="false" />
+    <Property Name="AttachmentURL" Type="varchar" MaxLength="200" />
+    <Property Name="DateCreated" Type="datetime" Nullable="false" />
+    <Property Name="MessageID" Type="bigint" Nullable="false" />
+    <Property Name="GreetingID" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Greeting">
+    <Key>
+      <PropertyRef Name="GreetingID" />
+    </Key>
+    <Property Name="GreetingID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OccassionTypeID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="bigint" Nullable="false" />
+    <Property Name="DateCreated" Type="datetime" Nullable="false" />
+    <Property Name="DateToSend" Type="datetime" />
+    <Property Name="DateDelivered" Type="datetime" />
+    <Property Name="DateOpened" Type="datetime" />
+    <Property Name="Subject" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="BodyText" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OccassionType">
+    <Key>
+      <PropertyRef Name="OccassionTypeID" />
+    </Key>
+    <Property Name="OccassionTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OccassionTypeName" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Recipient">
+    <Key>
+      <PropertyRef Name="RecipientID" />
+    </Key>
+    <Property Name="RecipientID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="EmailAddress" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="DateCreated" Type="datetime" Nullable="false" />
+    <Property Name="CreatedByUserID" Type="bigint" Nullable="false" />
+    <Property Name="GreetingID" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="PW" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="EmailAddress" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Status" Type="tinyint" Nullable="false" />
+    <Property Name="DateCreated" Type="datetime" Nullable="false" />
+    <Property Name="UserType" Type="tinyint" />
+  </EntityType>
+  <Association Name="FK_Attachment_Greeting">
+    <End Role="Greeting" Type="Self.Greeting" Multiplicity="1" />
+    <End Role="Attachment" Type="Self.Attachment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Greeting">
+        <PropertyRef Name="GreetingID" />
+      </Principal>
+      <Dependent Role="Attachment">
+        <PropertyRef Name="GreetingID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Greeting_OccassionType">
+    <End Role="OccassionType" Type="Self.OccassionType" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Greeting" Type="Self.Greeting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OccassionType">
+        <PropertyRef Name="OccassionTypeID" />
+      </Principal>
+      <Dependent Role="Greeting">
+        <PropertyRef Name="OccassionTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Greeting_User">
+    <End Role="User" Type="Self.User" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Greeting" Type="Self.Greeting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Greeting">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Recipient_Greeting">
+    <End Role="Greeting" Type="Self.Greeting" Multiplicity="1" />
+    <End Role="Recipient" Type="Self.Recipient" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Greeting">
+        <PropertyRef Name="GreetingID" />
+      </Principal>
+      <Dependent Role="Recipient">
+        <PropertyRef Name="GreetingID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Recipient_User">
+    <End Role="User" Type="Self.User" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Recipient" Type="Self.Recipient" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Recipient">
+        <PropertyRef Name="CreatedByUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="TimelyGreetingsModelStoreContainer">
+    <EntitySet Name="Attachment" EntityType="Self.Attachment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Greeting" EntityType="Self.Greeting" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OccassionType" EntityType="Self.OccassionType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Recipient" EntityType="Self.Recipient" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Attachment_Greeting" Association="Self.FK_Attachment_Greeting">
+      <End Role="Greeting" EntitySet="Greeting" />
+      <End Role="Attachment" EntitySet="Attachment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Greeting_OccassionType" Association="Self.FK_Greeting_OccassionType">
+      <End Role="OccassionType" EntitySet="OccassionType" />
+      <End Role="Greeting" EntitySet="Greeting" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Greeting_User" Association="Self.FK_Greeting_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Greeting" EntitySet="Greeting" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Recipient_Greeting" Association="Self.FK_Recipient_Greeting">
+      <End Role="Greeting" EntitySet="Greeting" />
+      <End Role="Recipient" EntitySet="Recipient" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Recipient_User" Association="Self.FK_Recipient_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Recipient" EntitySet="Recipient" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

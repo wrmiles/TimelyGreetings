@@ -1,0 +1,28 @@
+﻿@model TimelyGreetingsLite.Models.Greeting
+
+@{
+    ViewBag.Title = "Content";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Content</h2>
+
+<div>
+    <h4>Greeting</h4>
+    <hr />
+    <dl class="dl-horizontal">        
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BodyText)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BodyText)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.GreetingID }) |
+    @Html.ActionLink("Back to My List", "GreetingsByUser")
+</p>

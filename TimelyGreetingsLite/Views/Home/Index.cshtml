@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Timely Greetings</h1>
+    <p class="lead">Timely Greetings allows the user to create electronic greetings and schedule thier delivery to multiple recipients for any occassion.</p>
+   
+</div>
+
+@if (Request.IsAuthenticated)
+{
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Getting started</h2>
+            <p>
+                Welcome! Create New Timely Greeting or check on the status of previously sent greeting.
+            </p>
+            <p><a class="btn btn-default" href="/Greeting/Create"> Create New Timely Greeting &raquo;</a></p>
+            <p><a class="btn btn-default" href="/Greeting/GreetingsByUser">Greetings I Created &raquo;</a></p>
+        </div>
+
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Getting started</h2>
+            <p>
+                Create a new user account or sign into an existing account and get started sending Timely Greetings
+            </p>
+            <p><a class="btn btn-default" href="/User/Create">New User &raquo;</a></p>
+            <p><a class="btn btn-default" href="/User/Login">Existing User - Login &raquo;</a></p>
+        </div>
+
+    </div>
+}

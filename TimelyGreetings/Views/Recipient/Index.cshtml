@@ -1,0 +1,64 @@
+﻿@model IEnumerable<TimelyGreetings.Repository.Recipient>
+
+@{
+    ViewBag.Title = "Greeting Recipient";
+}
+
+<h2>Greeting Recipient</h2>
+
+<p>
+    @Html.ActionLink("Create New Recipient", "Create")
+</p>
+<table class="table">
+    <tr>        
+        <th>
+            To: 
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmailAddress)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </th>*@
+        @*<th>
+            @Html.DisplayNameFor(model => model.User.UserName)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.Greeting.Subject)
+        </th>
+        <th>
+            From
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>        
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmailAddress)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.DateCreated)
+        </td>*@
+        @*<td>
+            @Html.DisplayFor(modelItem => item.User.UserName)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.Greeting.Subject)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.UserName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.RecipientID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.RecipientID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RecipientID })
+        </td>
+    </tr>
+}
+
+</table>

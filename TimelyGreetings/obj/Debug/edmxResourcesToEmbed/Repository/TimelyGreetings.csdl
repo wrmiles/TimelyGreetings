@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TimelyGreetingsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Attachment">
+    <Key>
+      <PropertyRef Name="AttachmentID" />
+    </Key>
+    <Property Name="AttachmentID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AttachmentType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AttachmentSize" Type="Decimal" Precision="15" Scale="2" Nullable="false" />
+    <Property Name="AttachmentData" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AttachmentURL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="MessageID" Type="Int64" Nullable="false" />
+    <Property Name="GreetingID" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="Greeting" Relationship="TimelyGreetingsModel.FK_Attachment_Greeting" FromRole="Attachment" ToRole="Greeting" />
+  </EntityType>
+  <EntityType Name="OccassionType">
+    <Key>
+      <PropertyRef Name="OccassionTypeID" />
+    </Key>
+    <Property Name="OccassionTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OccassionTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Greetings" Relationship="TimelyGreetingsModel.FK_Greeting_OccassionType" FromRole="OccassionType" ToRole="Greeting" />
+  </EntityType>
+  <EntityType Name="Recipient">
+    <Key>
+      <PropertyRef Name="RecipientID" />
+    </Key>
+    <Property Name="RecipientID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="EmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CreatedByUserID" Type="Int64" Nullable="false" />
+    <Property Name="GreetingID" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Recipient_User" FromRole="Recipient" ToRole="User" />
+    <NavigationProperty Name="Greeting" Relationship="TimelyGreetingsModel.FK_Recipient_Greeting" FromRole="Recipient" ToRole="Greeting" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PW" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="EmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Status" Type="Byte" Nullable="false" />
+    <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UserType" Type="Byte" />
+    <NavigationProperty Name="Recipients" Relationship="Self.FK_Recipient_User" FromRole="User" ToRole="Recipient" />
+    <NavigationProperty Name="Greetings" Relationship="TimelyGreetingsModel.FK_Greeting_User" FromRole="User" ToRole="Greeting" />
+  </EntityType>
+  <Association Name="FK_Recipient_User">
+    <End Role="User" Type="Self.User" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Recipient" Type="Self.Recipient" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Recipient">
+        <PropertyRef Name="CreatedByUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TimelyGreetingsEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Attachments" EntityType="Self.Attachment" />
+    <EntitySet Name="OccassionTypes" EntityType="Self.OccassionType" />
+    <EntitySet Name="Recipients" EntityType="Self.Recipient" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK_Recipient_User" Association="Self.FK_Recipient_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Recipient" EntitySet="Recipients" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(TimelyGreetingsModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(TimelyGreetingsModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <EntitySet Name="Greetings" EntityType="TimelyGreetingsModel.Greeting" />
+    <AssociationSet Name="FK_Attachment_Greeting" Association="TimelyGreetingsModel.FK_Attachment_Greeting">
+      <End Role="Greeting" EntitySet="Greetings" />
+      <End Role="Attachment" EntitySet="Attachments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Greeting_OccassionType" Association="TimelyGreetingsModel.FK_Greeting_OccassionType">
+      <End Role="OccassionType" EntitySet="OccassionTypes" />
+      <End Role="Greeting" EntitySet="Greetings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Greeting_User" Association="TimelyGreetingsModel.FK_Greeting_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Greeting" EntitySet="Greetings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Recipient_Greeting" Association="TimelyGreetingsModel.FK_Recipient_Greeting">
+      <End Role="Greeting" EntitySet="Greetings" />
+      <End Role="Recipient" EntitySet="Recipients" />
+    </AssociationSet>
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="Greeting">
+    <Key>
+      <PropertyRef Name="GreetingID" />
+    </Key>
+    <Property Name="GreetingID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OccassionTypeID" Type="Int32" Nullable="false" />
+    <Property Name="UserID" Type="Int64" Nullable="false" />
+    <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DateToSend" Type="DateTime" Precision="3" />
+    <Property Name="DateDelivered" Type="DateTime" Precision="3" />
+    <Property Name="DateOpened" Type="DateTime" Precision="3" />
+    <Property Name="Subject" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="BodyText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Attachments" Relationship="TimelyGreetingsModel.FK_Attachment_Greeting" FromRole="Greeting" ToRole="Attachment" />
+    <NavigationProperty Name="OccassionType" Relationship="TimelyGreetingsModel.FK_Greeting_OccassionType" FromRole="Greeting" ToRole="OccassionType" />
+    <NavigationProperty Name="User" Relationship="TimelyGreetingsModel.FK_Greeting_User" FromRole="Greeting" ToRole="User" />
+    <NavigationProperty Name="Recipients" Relationship="TimelyGreetingsModel.FK_Recipient_Greeting" FromRole="Greeting" ToRole="Recipient" />
+  </EntityType>
+  <Association Name="FK_Attachment_Greeting">
+    <End Type="TimelyGreetingsModel.Greeting" Role="Greeting" Multiplicity="1" />
+    <End Type="TimelyGreetingsModel.Attachment" Role="Attachment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Greeting">
+        <PropertyRef Name="GreetingID" />
+      </Principal>
+      <Dependent Role="Attachment">
+        <PropertyRef Name="GreetingID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Greeting_OccassionType">
+    <End Type="TimelyGreetingsModel.OccassionType" Role="OccassionType" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="TimelyGreetingsModel.Greeting" Role="Greeting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OccassionType">
+        <PropertyRef Name="OccassionTypeID" />
+      </Principal>
+      <Dependent Role="Greeting">
+        <PropertyRef Name="OccassionTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Greeting_User">
+    <End Type="TimelyGreetingsModel.User" Role="User" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="TimelyGreetingsModel.Greeting" Role="Greeting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Greeting">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Recipient_Greeting">
+    <End Type="TimelyGreetingsModel.Greeting" Role="Greeting" Multiplicity="1" />
+    <End Type="TimelyGreetingsModel.Recipient" Role="Recipient" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Greeting">
+        <PropertyRef Name="GreetingID" />
+      </Principal>
+      <Dependent Role="Recipient">
+        <PropertyRef Name="GreetingID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
