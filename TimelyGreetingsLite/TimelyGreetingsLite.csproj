@@ -133,6 +133,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ContextHelper.cs" />
     <Compile Include="Models\Attachment.cs" />
     <Compile Include="Models\Greeting.cs" />
     <Compile Include="Models\OccassionType.cs" />
@@ -234,12 +235,16 @@
     <Content Include="Views\Greeting\Create.cshtml" />
     <Content Include="Views\Greeting\Edit.cshtml" />
     <Content Include="Views\Greeting\Content.cshtml" />
+    <Content Include="Views\Recipient\RecipientsByGreeting.cshtml" />
+    <Content Include="Views\Recipient\Create.cshtml" />
+    <Content Include="Views\Recipient\Edit.cshtml" />
+    <Content Include="Views\Greeting\Delete.cshtml" />
+    <Content Include="Views\Recipient\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Attachment\" />
     <Folder Include="Views\OccassionType\" />
-    <Folder Include="Views\Recipient\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

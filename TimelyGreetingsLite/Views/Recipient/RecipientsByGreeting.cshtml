@@ -1,0 +1,47 @@
+﻿@model IEnumerable<TimelyGreetingsLite.Models.Recipient>
+
+@{
+    ViewBag.Title = "RecipientsByGreeting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Recipients By Greeting</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", "Recipient", new { greetId = ViewBag.GreetingID }, null)
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+                &nbsp;
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmailAddress)
+        </th>         
+              
+        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+            &nbsp;
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmailAddress)
+        </td>       
+        
+        
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.RecipientID }) |            |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RecipientID })
+        </td>
+    </tr>
+}
+
+</table>

@@ -31,7 +31,14 @@ namespace TimelyGreetingsLite.Repository
             {
                 connection();
                 con.Open();
-                con.Execute("AddRecipient", objRecip, commandType: CommandType.StoredProcedure);
+                var _params = new DynamicParameters();
+                _params.Add("@CreatedByUserID", objRecip.CreatedByUserID);
+                _params.Add("@EmailAddress", objRecip.EmailAddress);
+                _params.Add("@FirstName", objRecip.FirstName);
+                _params.Add("@LastName", objRecip.LastName);
+                _params.Add("@GreetingID", objRecip.GreetingID);
+                
+                con.Execute("AddRecipient", _params, commandType: CommandType.StoredProcedure);
 
             }
             catch (Exception ex)
@@ -40,7 +47,10 @@ namespace TimelyGreetingsLite.Repository
             }
             finally
             {
-                con.Close();
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
             }
 
         }
@@ -66,13 +76,15 @@ namespace TimelyGreetingsLite.Repository
         }
 
         //To view Recipients by Greeting ID     
-        public List<Recipient> GetRecipientsByGreetingID()
+        public List<Recipient> GetRecipientsByGreetingID(Int64 greetingId)
         {
             try
             {
                 connection();
                 con.Open();
-                IList<Recipient> greetingRecipientList = SqlMapper.Query<Recipient>(con, "GetRecipientByGreetingID").ToList();
+                var _params = new DynamicParameters();
+                _params.Add("@GreetingID", greetingId);
+                IList<Recipient> greetingRecipientList = SqlMapper.Query<Recipient>(con, "GetRecipientByGreetingID", _params, commandType: CommandType.StoredProcedure).ToList();
 
                 return greetingRecipientList.ToList();
             }
@@ -87,13 +99,15 @@ namespace TimelyGreetingsLite.Repository
         }
 
         //To Get Recipient By ID     
-        public Recipient GetRecipientByID()
+        public Recipient GetRecipientByID(Int64 recipId)
         {
             try
             {
                 connection();
                 con.Open();
-                Recipient recipDetail = SqlMapper.Query<Recipient>(con, "GetRecipientByID").SingleOrDefault();
+                var _params = new DynamicParameters();
+                _params.Add("@RecipientID", recipId);
+                Recipient recipDetail = SqlMapper.Query<Recipient>(con, "GetRecipientByID", _params, commandType: CommandType.StoredProcedure).SingleOrDefault();
 
                 return recipDetail;
             }
@@ -103,7 +117,10 @@ namespace TimelyGreetingsLite.Repository
             }
             finally
             {
-                con.Close();
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
             }
         }
 
@@ -129,7 +146,7 @@ namespace TimelyGreetingsLite.Repository
 
         }
         //To delete Recipient     
-        public bool DeleteRecipient(int Id)
+        public bool DeleteRecipient(Int64 Id)
         {
             try
             {

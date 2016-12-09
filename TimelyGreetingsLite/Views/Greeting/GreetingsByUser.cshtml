@@ -58,8 +58,10 @@
         
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.GreetingID }) |
-            @Html.ActionLink("Content", "Content", new { id=item.GreetingID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.GreetingID })
+            @Html.ActionLink("View Text", "Content", new { id=item.GreetingID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.GreetingID }) |
+            @Html.ActionLink("Add Recipient", "Create", "Recipient", new { greetId=item.GreetingID }, null)
+            @Html.ActionLink("Recipients", "RecipientsByGreeting", "Recipient", new { greetId = item.GreetingID }, null)
         </td>
     </tr>
 }

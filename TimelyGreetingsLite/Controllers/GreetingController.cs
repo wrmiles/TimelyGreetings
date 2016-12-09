@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using TimelyGreetingsLite.Models;
 using TimelyGreetingsLite.Repository;
+using TimelyGreetingsLite.Helpers;
 
 namespace TimelyGreetingsLite.Controllers
 {
@@ -13,6 +14,7 @@ namespace TimelyGreetingsLite.Controllers
     public class GreetingController : Controller
     {
         GreetingRepository greetingRepo = new GreetingRepository();
+        ContextHelper cntxtHlpr = new ContextHelper();
 
         // GET: Greeting
         public ActionResult Index()
@@ -28,7 +30,7 @@ namespace TimelyGreetingsLite.Controllers
         public ActionResult GreetingsByUser()
         {
             // GET CURRENT LOGGED IN USER ID BASED ON CURRENT CONTEXT USER
-            Int64 userID = CurrentUserID();
+            Int64 userID = cntxtHlpr.GetCurrentUserID(User.Identity.Name);
 
             if (userID > 0)
             {
@@ -41,34 +43,13 @@ namespace TimelyGreetingsLite.Controllers
             
         }
 
-        private Int64 CurrentUserID()
-        {
-            Int64 userID = 0;
-            try
-            {
-                string userInfo = User.Identity.Name;
+        
 
-                string[] userParts = userInfo.Split('|');
-                string strUsrID = userParts[1].ToString();
-                
-                if (strUsrID != "")
-                {
-                    userID = Convert.ToInt64(strUsrID);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Unable to get current user id. " + ex.Message, ex.InnerException);
-            }
-            return userID;
-
-        }
-
-        // GET: Greeting/Details/5
-        public ActionResult Details(int id)
-        {
-            return View(greetingRepo.GetGreetingByID(id));
-        }
+        //// GET: Greeting/Details/5
+        //public ActionResult Details(int id)
+        //{
+        //    return View(greetingRepo.GetGreetingByID(id));
+        //}
 
         // GET: Greeting/Create
         public ActionResult Create()
@@ -85,7 +66,7 @@ namespace TimelyGreetingsLite.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Int64 userID = CurrentUserID();
+                    Int64 userID = cntxtHlpr.GetCurrentUserID(User.Identity.Name);
                     greeting.UserID = userID;
                     //greeting.DateCreated = DateTime.Now;                    
                     greetingRepo.AddGreeting(greeting);
@@ -140,7 +121,7 @@ namespace TimelyGreetingsLite.Controllers
             {
                 greetingRepo.DeleteGreeting(id);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("GreetingsByUser");
             }
             catch(Exception ex)
             {
