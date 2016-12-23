@@ -121,27 +121,33 @@ namespace TimelyGreetingsLite.Controllers
             {
                 bool isAuthenticated = false;
 
-                Int64? userID = usrRepo.AuthenticateUser(userName, pw); 
-                
-                if (userID != null)
+                Int64? userID = usrRepo.AuthenticateUser(userName, pw);
+
+                if (userID != null && userID > 0)
                 {
                     // USER IS SUCCESSFULLY AUTHENTICATED
                     isAuthenticated = true;
-                }                
+                }
+                else
+                {
+                    ViewBag.AuthenticationError = "Login failed.";
+                }               
 
                 if (isAuthenticated)
                 {
                     string userInfo = userName + "|" + userID.Value.ToString();
                     FormsAuthentication.SetAuthCookie(userInfo, false);
-
+                    ModelState.Clear();
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    return RedirectToAction("Login", "User");
+                    //return RedirectToAction("Login", "User");
+                    ModelState.Clear();
+                    return PartialView("_LoginPartial");
                 }
 
-                
+               
             }
             catch (Exception ex)
             {

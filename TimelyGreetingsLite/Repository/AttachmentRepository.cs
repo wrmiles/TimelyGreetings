@@ -33,7 +33,14 @@ namespace TimelyGreetingsLite.Repository
             {
                 connection();
                 con.Open();
-                con.Execute("AddAttachment", objAttach, commandType: CommandType.StoredProcedure);
+                var _params = new DynamicParameters();
+                _params.Add("@AttachmentType", objAttach.AttachmentType);
+                _params.Add("@AttachmentSize", objAttach.AttachmentSize);
+                _params.Add("@AttachmentData", objAttach.AttachmentData);
+                _params.Add("@AttachmentURL", objAttach.AttachmentURL);
+                _params.Add("@GreetingID", objAttach.GreetingID);
+                
+                con.Execute("AddAttachment", _params, commandType: CommandType.StoredProcedure);
                 
             }
             catch (Exception ex)
@@ -42,7 +49,10 @@ namespace TimelyGreetingsLite.Repository
             }
             finally
             {
-                con.Close();
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
             }
 
         }
@@ -63,18 +73,23 @@ namespace TimelyGreetingsLite.Repository
             }
             finally
             {
-                con.Close();
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
             }
         }
 
         //To view Attachments by Greeting ID     
-        public List<Attachment> GetAttachmentsByGreetingID()
+        public List<Attachment> GetAttachmentsByGreetingID(Int64 greetingId)
         {
             try
             {
                 connection();
                 con.Open();
-                IList<Attachment> attList = SqlMapper.Query<Attachment>(con, "GetAttachmentByGreetingID").ToList();
+                var _params = new DynamicParameters();
+                _params.Add("@GreetingID", greetingId);
+                IList<Attachment> attList = SqlMapper.Query<Attachment>(con, "GetAttachmentByGreetingID", _params, commandType: CommandType.StoredProcedure).ToList();
 
                 return attList.ToList();
             }
@@ -84,18 +99,23 @@ namespace TimelyGreetingsLite.Repository
             }
             finally
             {
-                con.Close();
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
             }
         }
 
         //To Get Attachment By ID     
-        public Attachment GetAttachmentByID()
+        public Attachment GetAttachmentByID(Int64 attchId)
         {
             try
             {
                 connection();
                 con.Open();
-                Attachment attDetail = SqlMapper.Query<Attachment>(con, "GetAttachmentByID").SingleOrDefault();
+                var _params = new DynamicParameters();
+                _params.Add("@AttachmentID", attchId);
+                Attachment attDetail = SqlMapper.Query<Attachment>(con, "GetAttachmentByID", _params, commandType: CommandType.StoredProcedure).SingleOrDefault();
 
                 return attDetail;
             }
@@ -105,7 +125,10 @@ namespace TimelyGreetingsLite.Repository
             }
             finally
             {
-                con.Close();
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
             }
         }
 
@@ -131,14 +154,14 @@ namespace TimelyGreetingsLite.Repository
 
         }
         //To delete Attachment     
-        public bool DeleteAttachment(int Id)
+        public bool DeleteAttachment(Int64 Id)
         {
             try
-            {
-                DynamicParameters param = new DynamicParameters();
-                param.Add("@AttachmentID", Id);
+            {                
                 connection();
                 con.Open();
+                DynamicParameters param = new DynamicParameters();
+                param.Add("@AttachmentID", Id);
                 con.Execute("DeleteAttachment", param, commandType: CommandType.StoredProcedure);
                 
                 return true;
@@ -150,7 +173,10 @@ namespace TimelyGreetingsLite.Repository
             }
             finally
             {
-                con.Close();
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
             }
         }
     }

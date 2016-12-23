@@ -1,0 +1,52 @@
+﻿@model IEnumerable<TimelyGreetingsLite.Models.Attachment>
+
+@{
+    ViewBag.Title = "AttachmentsByGreeting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>AttachmentsByGreeting</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", "Attachment", new { greetId = ViewBag.GreetingID }, null)
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AttachmentType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AttachmentSize)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AttachmentData)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AttachmentURL)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AttachmentType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AttachmentSize)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AttachmentData)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AttachmentURL)
+        </td>
+        
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AttachmentID }) |            
+            @Html.ActionLink("Delete", "Delete", new { id=item.AttachmentID })
+        </td>
+    </tr>
+}
+
+</table>

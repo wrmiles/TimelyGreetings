@@ -149,11 +149,11 @@ namespace TimelyGreetingsLite.Repository
         public bool DeleteRecipient(Int64 Id)
         {
             try
-            {
-                DynamicParameters param = new DynamicParameters();
-                param.Add("@RecipientID", Id);
+            {               
                 connection();
                 con.Open();
+                DynamicParameters param = new DynamicParameters();
+                param.Add("@RecipientID", Id);
                 con.Execute("DeleteRecipient", param, commandType: CommandType.StoredProcedure);
 
                 return true;

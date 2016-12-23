@@ -19,9 +19,7 @@ namespace TimelyGreetingsLite.Models
 
         public string AttachmentURL { get; set; }
 
-        public DateTime DateCreated { get; set; }
-
-        public Int64 MessageID { get; set; }
+        public DateTime DateCreated { get; set; }        
 
         public Int64 GreetingID { get; set; }
     }
