@@ -13,16 +13,13 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.AttachmentName)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.AttachmentType)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.AttachmentSize)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AttachmentData)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AttachmentURL)
         </th>
         <th></th>
     </tr>
@@ -30,20 +27,15 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.AttachmentName)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.AttachmentType)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.AttachmentSize)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AttachmentData)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AttachmentURL)
-        </td>
-        
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.AttachmentID }) |            
+        </td>         
+        <td>                       
             @Html.ActionLink("Delete", "Delete", new { id=item.AttachmentID })
         </td>
     </tr>

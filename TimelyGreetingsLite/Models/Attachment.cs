@@ -15,7 +15,9 @@ namespace TimelyGreetingsLite.Models
 
         public string AttachmentSize { get; set; }
 
-        public string AttachmentData { get; set; }
+        public string AttachmentName { get; set; }
+
+        public byte[] AttachmentData { get; set; }
 
         public string AttachmentURL { get; set; }
 

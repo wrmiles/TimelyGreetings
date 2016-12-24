@@ -47,48 +47,39 @@ namespace TimelyGreetingsLite.Controllers
         {
             Attachment objAttch = new Attachment();
             objAttch.GreetingID = greetId;
-            return View(objAttch);
+            //return View(objAttch);
+            return RedirectToAction("Index", "Upload", new { greetId = greetId });
         }
             
         
-        // POST: Attachment/Create
-        [HttpPost]
-        public ActionResult Create(HttpPostedFileBase fileUpload1)
-        {
-            //HttpPostedFileBase postedFile = Request.Files["fileUpload"];
+        //// POST: Attachment/Create
+        //[HttpPost]
+        //public ActionResult Create(HttpPostedFileBase fileUpload1)
+        //{
+        //    //HttpPostedFileBase postedFile = Request.Files["fileUpload"];
 
-            try
-            {
-                //if (Request.Files.Count > 0)
-                //{
-                //    fileUpload = Request.Files[0];
-
-                //    if (fileUpload != null && fileUpload.ContentLength > 0)
-                //    {
-                //        var fileName = Path.GetFileName(fileUpload.FileName);
-                //        var path = Path.Combine(Server.MapPath("~/Images/"), fileName);
-                //       // fileUpload.SaveAs(path);
-                //    }
-                //}
+        //    try
+        //    {
+               
 
 
-                //if (ModelState.IsValid)
-                //{
-                //    Int64 userID = cntxtHlpr.GetCurrentUserID(User.Identity.Name);
+        //        //if (ModelState.IsValid)
+        //        //{
+        //        //    Int64 userID = cntxtHlpr.GetCurrentUserID(User.Identity.Name);
                     
-                //    objAttch.GreetingID = greetId;
-                //    attchRepo.AddAttachment(objAttch);
+        //        //    objAttch.GreetingID = greetId;
+        //        //    attchRepo.AddAttachment(objAttch);
 
-                //    //ViewBag.Message = "Records added successfully.";
-                //}
+        //        //    //ViewBag.Message = "Records added successfully.";
+        //        //}
 
-                return RedirectToAction("AttachmentsByGreeting", new { greetId = 0 });
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Unable to create recipient. " + ex.Message, ex.InnerException);
-            }
-        }
+        //        return RedirectToAction("AttachmentsByGreeting", new { greetId = 0 });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Unable to create recipient. " + ex.Message, ex.InnerException);
+        //    }
+        //}
 
         // GET: Attachment/Edit/5
         public ActionResult Edit(Int64 id)

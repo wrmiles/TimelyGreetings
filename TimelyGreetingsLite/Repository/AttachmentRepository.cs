@@ -36,7 +36,12 @@ namespace TimelyGreetingsLite.Repository
                 var _params = new DynamicParameters();
                 _params.Add("@AttachmentType", objAttach.AttachmentType);
                 _params.Add("@AttachmentSize", objAttach.AttachmentSize);
-                _params.Add("@AttachmentData", objAttach.AttachmentData);
+                _params.Add("@AttachmentName", objAttach.AttachmentName);
+                if (objAttach.AttachmentData != null)
+                {
+                    _params.Add("@AttachmentData", objAttach.AttachmentData);
+                }
+                
                 _params.Add("@AttachmentURL", objAttach.AttachmentURL);
                 _params.Add("@GreetingID", objAttach.GreetingID);
                 
@@ -139,6 +144,14 @@ namespace TimelyGreetingsLite.Repository
             {
                 connection();
                 con.Open();
+                var _params = new DynamicParameters();
+                _params.Add("@AttachmentID", objAttach.AttachmentID);
+                _params.Add("@AttachmentType", objAttach.AttachmentType);
+                _params.Add("@AttachmentSize", objAttach.AttachmentSize);
+                _params.Add("@AttachmentName", objAttach.AttachmentName);
+                _params.Add("@AttachmentData", objAttach.AttachmentData);
+                _params.Add("@AttachmentURL", objAttach.AttachmentURL);
+                _params.Add("@GreetingID", objAttach.GreetingID);
                 con.Execute("UpdateAttachment", objAttach, commandType: CommandType.StoredProcedure);
                 con.Close();
             }
