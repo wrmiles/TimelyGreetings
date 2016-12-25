@@ -36,7 +36,7 @@ namespace TimelyGreetingsLite.Controllers
                 attachment.AttachmentName = uniqueFileName;
                 attachment.AttachmentSize = postedFile.ContentLength.ToString();
                 attachment.AttachmentType = postedFile.ContentType;
-                string path = Server.MapPath("~/Uploads/");
+                string path = Server.MapPath("~/Uploads/Attachments");
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);

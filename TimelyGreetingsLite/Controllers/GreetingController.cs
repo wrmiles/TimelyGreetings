@@ -19,7 +19,7 @@ namespace TimelyGreetingsLite.Controllers
         // GET: Greeting
         public ActionResult Index()
         {
-            return View();
+            return View(greetingRepo.GetAllGreetings());
         }
 
         public ActionResult Content(int id)
@@ -55,6 +55,7 @@ namespace TimelyGreetingsLite.Controllers
         public ActionResult Create()
         {            
             PopulateOccassionTypeDropDown(null);
+            PopulateGreetingTemplateDropDown(0,null);
             return View();
         }
 
@@ -87,6 +88,7 @@ namespace TimelyGreetingsLite.Controllers
         {
             Greeting objGreet = greetingRepo.GetGreetingByID(id);
             PopulateOccassionTypeDropDown(objGreet.OccassionTypeID);
+            PopulateGreetingTemplateDropDown(objGreet.OccassionTypeID, objGreet.GreetingTemplateID);
             return View(objGreet);
         }
 
@@ -161,6 +163,29 @@ namespace TimelyGreetingsLite.Controllers
                 ViewBag.OccassionTypeID = new SelectList(objGreet.OccassionTypes, "OccassionTypeID", "OccassionTypeName");
             }
             
+        }
+
+        private void PopulateGreetingTemplateDropDown(int selectedOccassionTypeID, Int64? selectedGreetingTemplateID)
+        {
+            GreetingTemplateRepository greetTmpltRepo = new GreetingTemplateRepository();
+            Greeting objGreet = new Greeting();
+
+            if (selectedGreetingTemplateID != null)
+            {
+                objGreet.GreetingTemplates = greetTmpltRepo.GetGreetingTemplatesByOccassionTypeID(selectedOccassionTypeID);
+                // EDIT MODE
+
+                ViewBag.GreetingTemplateID = new SelectList(objGreet.GreetingTemplates, "GreetingTemplateID", "GreetingTemplateName", selectedGreetingTemplateID);
+            }
+            else
+            {
+                objGreet.GreetingTemplates = greetTmpltRepo.GetAllGreetingTemplates();
+                ViewBag.GreetingTemplateID = new SelectList(objGreet.GreetingTemplates, "GreetingTemplateID", "GreetingTemplateName");
+            }
+            
+            
+            
+
         }
 
 

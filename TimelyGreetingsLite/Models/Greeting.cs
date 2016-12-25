@@ -53,6 +53,12 @@ namespace TimelyGreetingsLite.Models
         public string BodyText { get; set; }
         public List<OccassionType> OccassionTypes { get; set; }
 
+        public Int64? GreetingTemplateID { get; set; }
+
+        public string GreetingTemplateName { get; set; }
+
+        public List<GreetingTemplate> GreetingTemplates { get; set; }
+
         [DisplayName("Occassion")]
         public string OccassionTypeName { get; set; }
 

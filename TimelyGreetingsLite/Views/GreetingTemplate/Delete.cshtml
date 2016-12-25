@@ -1,0 +1,161 @@
+﻿@model TimelyGreetingsLite.Models.GreetingTemplate
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>GreetingTemplate</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.GreetingTemplateName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GreetingTemplateName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OccassionTypeID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OccassionTypeID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FrontCoverBackgroundColor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FrontCoverBackgroundColor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FrontCoverBackgroundPatternFilePathName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FrontCoverBackgroundPatternFilePathName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FrontCoverImageFilePathName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FrontCoverImageFilePathName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InsideBackgroundColor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InsideBackgroundColor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InsideBackgroundPatternFilePathName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InsideBackgroundPatternFilePathName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InsideImageFilePathName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InsideImageFilePathName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FrontCoverFont)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FrontCoverFont)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FrontCoverFontSize)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FrontCoverFontSize)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FrontCoverFontColor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FrontCoverFontColor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FrontCoverFontWeight)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FrontCoverFontWeight)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InsideFont)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InsideFont)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InsideFontSize)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InsideFontSize)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InsideFontColor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InsideFontColor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InsideFontWeight)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InsideFontWeight)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MusicPathFileName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MusicPathFileName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

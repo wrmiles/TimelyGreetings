@@ -1,0 +1,130 @@
+﻿@model IEnumerable<TimelyGreetingsLite.Models.GreetingTemplate>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.GreetingTemplateName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OccassionTypeID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FrontCoverBackgroundColor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FrontCoverBackgroundPatternFilePathName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FrontCoverImageFilePathName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InsideBackgroundColor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InsideBackgroundPatternFilePathName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InsideImageFilePathName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FrontCoverFont)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FrontCoverFontSize)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FrontCoverFontColor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FrontCoverFontWeight)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InsideFont)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InsideFontSize)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InsideFontColor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InsideFontWeight)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MusicPathFileName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.GreetingTemplateName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OccassionTypeID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FrontCoverBackgroundColor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FrontCoverBackgroundPatternFilePathName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FrontCoverImageFilePathName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InsideBackgroundColor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InsideBackgroundPatternFilePathName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InsideImageFilePathName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FrontCoverFont)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FrontCoverFontSize)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FrontCoverFontColor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FrontCoverFontWeight)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InsideFont)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InsideFontSize)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InsideFontColor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InsideFontWeight)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MusicPathFileName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.GreetingTemplateID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.GreetingTemplateID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.GreetingTemplateID })
+        </td>
+    </tr>
+}
+
+</table>

@@ -37,6 +37,7 @@ namespace TimelyGreetingsLite.Repository
                 _params.Add("@DateToSend", objGreet.DateToSend);                
                 _params.Add("@Subject", objGreet.Subject);
                 _params.Add("@BodyText", objGreet.BodyText);
+                _params.Add("@GreetingTemplateID", objGreet.GreetingTemplateID);
                 con.Execute("AddGreeting", _params, commandType: CommandType.StoredProcedure);
 
             }
@@ -143,6 +144,7 @@ namespace TimelyGreetingsLite.Repository
                 _params.Add("@DateToSend", objGreet.DateToSend);                
                 _params.Add("@Subject", objGreet.Subject);
                 _params.Add("@BodyText", objGreet.BodyText);
+                _params.Add("@GreetingTemplateID", objGreet.GreetingTemplateID);
 
                 con.Execute("UpdateGreeting", _params, commandType: CommandType.StoredProcedure);
                 
